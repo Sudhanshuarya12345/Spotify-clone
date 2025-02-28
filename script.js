@@ -2,8 +2,8 @@ let currentsong = new Audio();
 let songs;
 let currentFolder;
 
-// let linkOfSongfolder = 'http://127.0.0.1:5500/Spotify%20clone/songs/'
-let linkOfSongfolder = 'https://github.com/Sudhanshuarya12345/Spotify-clone/blob/main/'
+let linkOfSongfolder = 'http://127.0.0.1:5500/Spotify%20clone/songs/'
+// let linkOfSongfolder = 'https://github.com/Sudhanshuarya12345/Spotify-clone/blob/main/'
 
 function secondsToMinutes(seconds) {
     if (isNaN(seconds) || seconds < 0) {
