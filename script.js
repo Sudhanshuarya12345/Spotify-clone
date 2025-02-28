@@ -2,6 +2,9 @@ let currentsong = new Audio();
 let songs;
 let currentFolder;
 
+// let linkOfSongfolder = 'http://127.0.0.1:5500/Spotify%20clone/songs/'
+let linkOfSongfolder = 'https://github.com/Sudhanshuarya12345/Spotify-clone/blob/main/'
+
 function secondsToMinutes(seconds) {
     if (isNaN(seconds) || seconds < 0) {
         return "Invalid input"
@@ -16,7 +19,7 @@ function secondsToMinutes(seconds) {
 }
 
 async function displayAlbums() {
-    let a = await fetch('http://127.0.0.1:5500/tut84%20Spotify%20clone/songs/')
+    let a = await fetch(`${linkOfSongfolder}`)
 
     // getting link of main folder
     let response = await a.text()
@@ -35,7 +38,7 @@ async function displayAlbums() {
             // console.log(folder)
 
             //get the metadata of the folder like description, title etc
-            let a = await fetch(`http://127.0.0.1:5500/tut84%20Spotify%20clone/songs/${folder}/info.json`)
+            let a = await fetch(`${linkOfSongfolder}${folder}/info.json`)
             let response = await a.json()
 
             // Adding cards to cardcontainer
@@ -60,7 +63,7 @@ async function displayAlbums() {
 async function getsongs(folder) {
     currentFolder = folder
     // Fetching innerHTML of below link
-    let a = await fetch(`http://127.0.0.1:5500/tut84%20Spotify%20clone/songs/${currentFolder}/`)
+    let a = await fetch(`${linkOfSongfolder}${currentFolder}/`)
     let response = await a.text()
 
     // use response inside div And get link using getElementsByTagName('a')
@@ -123,13 +126,13 @@ async function addSongsToYourLibrary() {
 
 const playmusic = (track, pause = false) => {
     // let audio = new Audio("/tut84%20Spotify%20clone/songs/Audio/"+track+".mp3")
-    currentsong.src = `/tut84%20Spotify%20clone/songs/${currentFolder}/` + track + ".mp3"
+    currentsong.src = `${linkOfSongfolder}${currentFolder}/` + track + ".mp3"
     if (!pause) {
         currentsong.play()
         play.src = "img/pause.png"
 
         currentsong.play().catch(error => {
-            currentsong.src = `/tut84%20Spotify%20clone/songs/${currentFolder}/` + track + ".m4a"
+            currentsong.src = `${linkOfSongfolder}${currentFolder}/` + track + ".m4a"
             play.src = "img/pause.png"
             currentsong.play()
         });
@@ -218,6 +221,7 @@ async function main() {
     // Add an event to Volume to change loudness
     document.querySelector(".volume").getElementsByTagName("input")[0].addEventListener("change", (e)=>{
         // volume set like 25%, 30% etc.
+        muteUnmute.src = "img/volume.svg"
         currentsong.volume = parseInt(e.target.value)/100
     })
 
@@ -229,12 +233,21 @@ async function main() {
             play.src = "img/play.png"
         })
     })
+
     // Add an listener to mute and unmute by clicking on image
-    // document.querySelector(".volume>img").addEventListener("change", (e)=>{
-    //     // volume set like 25%, 30% etc.
-    //     // currentsong.volume = parseInt(0)
-    //     console.log("clicked")
-    // })
+    document.querySelector(".volume").children[0].addEventListener("click", (e)=>{
+        // volume set like 25%, 30% etc.
+        if(muteUnmute.src.includes('volume.svg')){
+            muteUnmute.src = "img/mute.svg"
+            document.querySelector(".volume").getElementsByTagName("input")[0].value = 0
+            currentsong.volume = parseInt(0)
+        }
+        else{
+            muteUnmute.src = "img/volume.svg"
+            document.querySelector(".volume").getElementsByTagName("input")[0].value = 10
+            currentsong.volume = 0.10
+        }
+    })
 
 
 }
